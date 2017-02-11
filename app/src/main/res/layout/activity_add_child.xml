@@ -13,28 +13,6 @@
     tools:context="test.com.signinapp.AddChild">
 
 
-    <Button
-        android:text="Submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="115dp"
-        android:id="@+id/button2"
-        android:layout_below="@+id/sex"
-        android:layout_centerHorizontal="true"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/editText"
-        android:hint="DOB"
-        android:textAlignment="center"
-        android:layout_below="@+id/editTextname"
-        android:layout_alignLeft="@+id/editTextname"
-        android:layout_alignStart="@+id/editTextname"
-        android:layout_marginTop="40dp"/>
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,13 +28,36 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:hint="DOB"
+        android:textAlignment="center"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/editTextname"
+        android:layout_alignLeft="@+id/editTextname"
+        android:layout_alignStart="@+id/editTextname"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/sex"
         android:hint="M / F"
-        android:layout_centerVertical="true"
+        android:textAlignment="center"
+        android:layout_below="@+id/editText"
         android:layout_alignLeft="@+id/editText"
         android:layout_alignStart="@+id/editText"
-        android:textAlignment="center"/>
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:text="Submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="38dp"
+        android:id="@+id/button2"
+        android:layout_below="@+id/sex"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

@@ -38,7 +38,7 @@ public class ChildActivity extends AppCompatActivity
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private NavigationView navigationView;
-    String filename,filename2;
+    String filename,filename2,username;
 
     Child child_list[];
 
@@ -74,7 +74,7 @@ public class ChildActivity extends AppCompatActivity
                            Log.d("he",filename2);
                            final JSONObject temp = new JSONObject(filename2).getJSONObject("data");
 
-
+                            username=temp.getString("username");
                            final JSONArray temp2=temp.getJSONArray("children");
                            Log.d("child",String.valueOf(temp2));
                            child_list=new Child[temp2.length()+1];
@@ -161,6 +161,13 @@ public class ChildActivity extends AppCompatActivity
                                 startActivity(intent);
                                 finish();
                                 break;
+                            case R.id.me:
+                            intent = new Intent(ChildActivity.this, MeActivity.class);
+                            intent.putExtra("data",username);
+                            Log.d("tag",String.valueOf(username));
+                            startActivity(intent);
+                                finish();
+                            break;
                         }
 
                         mDrawerLayout.closeDrawers();
