@@ -3,15 +3,19 @@ package test.com.signinapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.*;
@@ -20,6 +24,7 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
+import mehdi.sakout.fancybuttons.FancyButton;
 
 /**
  * A login screen that offers login via email/password.
@@ -27,22 +32,35 @@ import cz.msebera.android.httpclient.entity.StringEntity;
 public class LoginActivity extends AppCompatActivity {
 
     // UI references.
+    SharedPreferences pref;
     private EditText mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private String baseUrl = "http://10.150.182.73/aman/signinapp/backend/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+
         mEmailView = (EditText) findViewById(R.id.email);
+        mEmailView.setText(pref.getString("username",null));
 
         mPasswordView = (EditText) findViewById(R.id.password);
-
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mPasswordView.setText(pref.getString("password",null));
+        FancyButton mEmailSignInButton = (FancyButton) findViewById(R.id.email_sign_in_button);
+        FancyButton mEmailregisterButton=(FancyButton)findViewById(R.id.email_register_button);
+        mEmailregisterButton.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent i=new Intent(getApplicationContext(),RegisterActivity.class);
+                startActivity(i);
+            }
+        });
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,8 +81,8 @@ public class LoginActivity extends AppCompatActivity {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String email = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -99,27 +117,56 @@ public class LoginActivity extends AppCompatActivity {
         JSONObject jsonParams = new JSONObject();
         StringEntity entity = null;
         try {
-            jsonParams.put("username", password);
-            jsonParams.put("password", email);
+            jsonParams.put("username", email);
+            jsonParams.put("password", password);
+
             entity = new StringEntity(jsonParams.toString());
         } catch (Exception e) {
             showProgress(false);
+            Toast.makeText(getApplicationContext(),"Json failed",Toast.LENGTH_LONG).show();
         }
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.post(getApplicationContext(), baseUrl + "login.php", entity, "application/json", new AsyncHttpResponseHandler() {
+        client.post(getApplicationContext(), BaseUrl.url + "login.php", entity, "application/json", new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+
                 // called when response HTTP status is "200 OK"
-                Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+                Log.d("statusCode",String.valueOf(statusCode));
+                try
+                {
+                    if(!new String(response, "UTF-8").contains("failed"))
+                    {
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("username", email);
+                        editor.putString("password", password);
+                        editor.commit();
+
+                       // Toast.makeText(LoginActivity.this, new String(response, "UTF-8") + " " + statusCode, Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), AfterLogin.class);
+                        intent.putExtra("data", new String(response, "UTF-8"));
+                        Log.d("data", new String(response, "UTF-8"));
+                        startActivity(intent);
+                        finish();
+                    }
+                    else
+                        Toast.makeText(getApplicationContext(),"Login auth failed.",Toast.LENGTH_SHORT).show();
+
+                }
+                catch (Exception e)
+                {
+
+                }
                 showProgress(false);
             }
+
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                Toast.makeText(LoginActivity.this, errorResponse.toString(), Toast.LENGTH_LONG).show();
+                Log.d("statusCode",String.valueOf(statusCode));
+                Toast.makeText(LoginActivity.this,"Failed", Toast.LENGTH_LONG).show();
                 showProgress(false);
             }
         });
