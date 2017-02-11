@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+        this.setTitle("Login");
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
 
         mEmailView = (EditText) findViewById(R.id.email);

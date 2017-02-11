@@ -42,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         mEmailView = (EditText) findViewById(R.id.email);
         mSexView=(EditText)findViewById(R.id.sex);
         mPasswordView = (EditText) findViewById(R.id.password);
+        this.setTitle("Register");
         mNameView=(EditText)findViewById(R.id.name);
         mUsernameView=(EditText)findViewById(R.id.username);
         mDateView=(EditText)findViewById(R.id.date);

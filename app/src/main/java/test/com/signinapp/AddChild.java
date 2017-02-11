@@ -32,12 +32,19 @@ public class AddChild extends AppCompatActivity implements View.OnClickListener
 
 
     EditText Edate;
-
+String filename;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_child);
+        this.setTitle("Add your Child");
+        Bundle extras=getIntent().getExtras();
+        if (extras != null)
+        {
+
+            filename = extras.getString("data");
+        }
        Edate =(EditText)findViewById(R.id.editText);
         final EditText Esex=(EditText)findViewById(R.id.sex);
         final EditText Ename=(EditText)findViewById(R.id.editTextname);
@@ -76,6 +83,9 @@ Edate.setFocusable(false);
                             try
                             {
                                 Toast.makeText(getApplicationContext(),"Successfully Added!",Toast.LENGTH_SHORT).show();
+                                Intent i=new Intent(AddChild.this, ChildActivity.class);
+                                i.putExtra("data",filename);
+                                startActivity(i);
                                 finish();
 
                             }
