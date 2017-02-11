@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/me"
+        android:title="Me"
+        android:orderInCategory="0"
+        ></item>
+
+
     <item
         android:id="@+id/all"
         android:title="Children"
-        android:orderInCategory="0"
+        android:orderInCategory="1"
         ></item>
     <item
         android:id="@+id/top"
         android:title="Pets"
-        android:orderInCategory="0"
+        android:orderInCategory="2"
         ></item>
 
     </menu>

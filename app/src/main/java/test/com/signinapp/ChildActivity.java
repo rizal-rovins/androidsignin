@@ -104,8 +104,9 @@ public class ChildActivity extends AppCompatActivity
                                        startActivity(i);
                                    }
                                    else
-                                   {    Intent i=new Intent(ChildActivity.this, ChildDetails.class));
-                                        i.putExtra("childdata",)
+                                   {    Intent i=new Intent(ChildActivity.this, ChildDetails.class);
+                                        i.putExtra("childdata",String.valueOf(child_list[position].getChildid()));
+                                       startActivity(i);
                                    }
 
 

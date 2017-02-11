@@ -27,4 +27,6 @@ public class Child
     {return title;}
     public int getIcon()
     {return icon;}
+    public int getChildid()
+    {return childid;}
 }
