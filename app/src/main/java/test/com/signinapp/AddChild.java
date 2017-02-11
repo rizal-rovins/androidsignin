@@ -29,7 +29,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
 
 public class AddChild extends AppCompatActivity implements View.OnClickListener
 {
-    private String baseUrl = "http://192.168.43.232/hackDTU/backend/";
+
 
     EditText Edate;
 
@@ -66,7 +66,7 @@ Edate.setFocusable(false);
 
                    StringEntity entity = new StringEntity(mObject.toString());
                     AsyncHttpClient client = new AsyncHttpClient();
-                    client.post(getApplicationContext(), baseUrl + "addchild.php", entity, "application/json", new AsyncHttpResponseHandler() {
+                    client.post(getApplicationContext(), BaseUrl.url + "addchild.php", entity, "application/json", new AsyncHttpResponseHandler() {
 
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, byte[] response) {
